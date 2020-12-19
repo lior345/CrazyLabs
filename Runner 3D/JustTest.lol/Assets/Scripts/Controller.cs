@@ -69,18 +69,18 @@ public class Controller : MonoBehaviour
     private void LeftMove()//Left Movement Check
     {
         _nextLane--;
-        if (_nextLane == -3)
+        if (_nextLane == -2)
         {
-            _nextLane = -2;
+            _nextLane = -1;
         }
         _nextPos = new Vector3(_nextLane, transform.position.y, transform.position.z);
     }
     private void RightMove()//Right Movement Check
     {
         _nextLane++;
-        if (_nextLane == 3)
+        if (_nextLane == 2)
         {
-            _nextLane = 2;
+            _nextLane = 1;
         }
         _nextPos = new Vector3(_nextLane, transform.position.y, transform.position.z);
     }
