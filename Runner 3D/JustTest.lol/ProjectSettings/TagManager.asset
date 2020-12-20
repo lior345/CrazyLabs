@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Crystal
   - Coin
   - Obstacle
   - Platform
   - Booster
   - FloatingPlatform
+  - GameManager
   layers:
   - Default
   - TransparentFX

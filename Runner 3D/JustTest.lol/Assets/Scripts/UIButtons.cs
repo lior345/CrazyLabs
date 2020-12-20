@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class UIButtons: MonoBehaviour
 {
+    private GameManager _gm;
     private void Start()
     {
         Time.timeScale = 0;
+        _gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
     public void Restart()
     {
@@ -17,5 +19,15 @@ public class UIButtons: MonoBehaviour
     {
         Time.timeScale = 1;
         this.gameObject.SetActive(false);
+    }
+    public void CameraChange()
+    {
+        _gm.CameraSwap();
+    }
+    public void SpeedChange()
+    {
+        Controller player = GameObject.FindGameObjectWithTag("Player").GetComponent<Controller>();
+        player.RunSpeedChange();
+
     }
 }

@@ -2,34 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 public class Controller : MonoBehaviour
 {
     #region Vareiables
     private float _nextLane;
-    private float _lerpSpeed = 5;
     private Vector3 _nextPos;
     private Rigidbody _rb;
-    private float _actualSpeed;//calculated by the pre-determined speed*speed multiplier from menu
+    private float _runSpeed;
 
-    [SerializeField] float jumpForce;
-    [SerializeField] float runSpeed;
-    [SerializeField] TextMeshProUGUI speedText;
+    [SerializeField] private float _lerpSpeed = 5;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private Slider _speedSlider;
 
-    public GameObject replay;//When failing- a replay option will appear///////////////////////////////////
+    public float _actualSpeed;//calculated by the pre-determined speed*speed multiplier from menu
+    public GameObject replay;//When failing- a replay option will appear
     public Transform cameraTransform;
     public TouchManager touchManager;
     public bool alive = true;
-    public float speedMultiplier = 1;
     public bool isGrounded;
     #endregion
     private void Start()
     {
-
         _nextLane = 0;//starting in the middle
         _rb = GetComponent<Rigidbody>();
-        _actualSpeed = runSpeed;
-
+        _actualSpeed = _speedSlider.value=10;
     }
     private void Update()
     {
@@ -40,7 +37,6 @@ public class Controller : MonoBehaviour
         }//one way to die is falling off
         if (alive)
         {
-            speedText.text = "Speed: " + _actualSpeed.ToString();
             transform.Translate(0, 0, _actualSpeed * Time.deltaTime);//forward movement*speed Multipier    
             transform.position = Vector3.Lerp(transform.position, new Vector3(_nextPos.x, transform.position.y, transform.position.z), _lerpSpeed * Time.deltaTime);//gradual side movement
             cameraTransform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y, transform.position.z - 6);//camera Movement
@@ -62,9 +58,14 @@ public class Controller : MonoBehaviour
         }
         else Death();//death
     }
+    public void RunSpeedChange()
+    {
+        _runSpeed = _speedSlider.value;
+        SetSpeedMultiplier(1);
+    }
     public void SetSpeedMultiplier(float multiplier)
     {
-        _actualSpeed = runSpeed * multiplier;
+        _actualSpeed = _runSpeed * multiplier;
     }//speed calculation
     private void LeftMove()//Left Movement Check
     {
@@ -88,7 +89,7 @@ public class Controller : MonoBehaviour
     {
         if (isGrounded)
         {
-            _rb.velocity = new Vector3(0, jumpForce, 0);
+            _rb.velocity = new Vector3(0, _jumpForce, 0);
         }
     }//jump
     private void OnCollisionEnter(Collision other)
@@ -127,7 +128,6 @@ public class Controller : MonoBehaviour
     }//collectables behavior
     public void Death()
     {
-        speedText.text = "Speed: 0";
         replay.SetActive(true);
         alive = false;
         Time.timeScale = 0;
