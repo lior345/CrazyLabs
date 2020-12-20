@@ -14,7 +14,6 @@ public class score : MonoBehaviour
         StartCoroutine(AdvanceScore());
     }
 
-    // Update is called once per frame
     void Update()
     {
         tmPro.text = "Score:" + PlayerPrefs.GetInt("score".ToString());

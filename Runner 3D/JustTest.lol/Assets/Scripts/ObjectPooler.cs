@@ -13,7 +13,6 @@ public class ObjectPooler : MonoBehaviour
 
     private static  List<GameObject> _platformsList;
     private static List<GameObject> _hiddenPlatformsList;
-
     private static Vector3 _nextSpawnLocation;
     private static Vector3 _nextHiddenSpawnLocation;
 
