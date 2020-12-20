@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private float _lerpSpeed = 5;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Slider _speedSlider;
+    [SerializeField] private GameObject _flames;
 
     public float actualSpeed;//calculated by the pre-determined speed*speed multiplier from menu
     public GameObject replay;//When failing- a replay option will appear
@@ -120,8 +121,10 @@ public class Controller : MonoBehaviour
     }
     IEnumerator Booster()
     {
+        _flames.SetActive(true);
         SetSpeedMultiplier(1.5f);
         yield return new WaitForSeconds(3);
+        _flames.SetActive(false);
         SetSpeedMultiplier(1);
     }//booster ramp
     IEnumerator Collectables(Collider other)
