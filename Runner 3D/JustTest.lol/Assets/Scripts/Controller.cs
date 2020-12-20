@@ -9,13 +9,13 @@ public class Controller : MonoBehaviour
     private float _nextLane;
     private Vector3 _nextPos;
     private Rigidbody _rb;
-    private float _runSpeed;
+    private float _runSpeed;//value is by the speed slider on the debugger
 
     [SerializeField] private float _lerpSpeed = 5;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Slider _speedSlider;
 
-    public float _actualSpeed;//calculated by the pre-determined speed*speed multiplier from menu
+    public float actualSpeed;//calculated by the pre-determined speed*speed multiplier from menu
     public GameObject replay;//When failing- a replay option will appear
     public Transform cameraTransform;
     public TouchManager touchManager;
@@ -26,7 +26,7 @@ public class Controller : MonoBehaviour
     {
         _nextLane = 0;//starting in the middle
         _rb = GetComponent<Rigidbody>();
-        _actualSpeed = _speedSlider.value=10;
+        actualSpeed = _speedSlider.value=10;
     }
     private void Update()
     {
@@ -37,7 +37,7 @@ public class Controller : MonoBehaviour
         }//one way to die is falling off
         if (alive)
         {
-            transform.Translate(0, 0, _actualSpeed * Time.deltaTime);//forward movement*speed Multipier    
+            transform.Translate(0, 0, actualSpeed * Time.deltaTime);//forward movement*speed Multipier    
             transform.position = Vector3.Lerp(transform.position, new Vector3(_nextPos.x, transform.position.y, transform.position.z), _lerpSpeed * Time.deltaTime);//gradual side movement
             cameraTransform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y, transform.position.z - 6);//camera Movement
 
@@ -65,7 +65,7 @@ public class Controller : MonoBehaviour
     }
     public void SetSpeedMultiplier(float multiplier)
     {
-        _actualSpeed = _runSpeed * multiplier;
+        actualSpeed = _runSpeed * multiplier;
     }//speed calculation
     private void LeftMove()//Left Movement Check
     {
@@ -107,9 +107,14 @@ public class Controller : MonoBehaviour
             Death();
         }
 
-        else if (other.gameObject.CompareTag("Coin"))
+        else if (other.gameObject.CompareTag("Pickup"))
         {
             PlayerPrefs.SetInt("score", PlayerPrefs.GetInt("score") + 10);
+            StartCoroutine(Collectables(other));
+        }
+        else if (other.gameObject.CompareTag("SuperPickup"))
+        {
+            PlayerPrefs.SetInt("score", PlayerPrefs.GetInt("score") + 50);
             StartCoroutine(Collectables(other));
         }
     }
@@ -121,9 +126,9 @@ public class Controller : MonoBehaviour
     }//booster ramp
     IEnumerator Collectables(Collider other)
     {
-        other.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        yield return new WaitForSeconds(0.3f);
-        other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        other.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.6f);
+        other.gameObject.SetActive(true);
 
     }//collectables behavior
     public void Death()

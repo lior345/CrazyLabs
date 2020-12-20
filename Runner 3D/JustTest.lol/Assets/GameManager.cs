@@ -13,17 +13,17 @@ public class GameManager : MonoBehaviour
     {
         Physics.gravity = new Vector3(0, -_gravityScale, 0);
 
-        Screen.orientation = ScreenOrientation.Portrait;
+        Screen.orientation = ScreenOrientation.Portrait;//prevents the screen from rotating on mobile devices
 
         if (PlayerPrefs.GetInt("Camera") == 2)
         {
             _cam1.enabled = false;
             _cam2.enabled = true;
-        }
+        }//starting the game with the last chosen perspective, saved in playerprefs
     }
     private void Update()
     {
-        _speedSlider.value = _player._actualSpeed;
+        _speedSlider.value = _player.actualSpeed;
     }
     public void CameraSwap()
     {
@@ -40,6 +40,6 @@ public class GameManager : MonoBehaviour
             _cam1.enabled = false;
             _cam2.enabled = true;
         }
-    }
+    }//changing cameras, between 3rd person perspective and top downn perspective
 
 }

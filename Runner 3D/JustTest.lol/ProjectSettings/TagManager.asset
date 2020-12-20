@@ -10,6 +10,8 @@ TagManager:
   - Booster
   - FloatingPlatform
   - GameManager
+  - SuperPickup
+  - Pickup
   layers:
   - Default
   - TransparentFX
